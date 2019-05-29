@@ -6,6 +6,7 @@ paths.dofile('mylib/helper.lua')
 -----------------------------------------
 -- content_name: the content image located in folder "data/content". Notice for free synthesis this image is only used for initialization (and only when "ini_method" is set to "image")
 -- style_name: the style image located in folder "data/style" 
+-- ini_name: the initial image to start with (if ini_method set to image
 -- ini_method: initial method, set to "image" to use the content image as the initialization; set to "random" to use random noise (of the same size as the content image). 
 -- max_size: maximum size of the synthesis image. Default value 384. Larger image needs more time and memory.
 -- scaler: relative expansion from example to result. Default value 2. 
@@ -32,16 +33,16 @@ paths.dofile('mylib/helper.lua')
 -- Reference tests 
 -----------------------------------------
 -- speed mode V.S. memory mode (Titan X 12G)
--- {'2', '2', 'random', 384, 2, 3, {100, 100, 100}, {12, 21}, {1e-4, 1e-4}, {3, 3}, 1, 1, {2, 2}, {2, 2}, {0, 0}, 1e-3, 'speed', 256, 16, 'cudnn'}, -- 131 seconds
--- {'2', '2', 'random', 384, 2, 3, {100, 100, 100}, {12, 21}, {1e-4, 1e-4}, {3, 3}, 1, 1, {2, 2}, {2, 2}, {0, 0}, 1e-3, 'memory', 256, 16, 'cudnn'} -- 172 seconds
+-- {'2', '2', '2', 'random', 384, 2, 3, {100, 100, 100}, {12, 21}, {1e-4, 1e-4}, {3, 3}, 1, 1, {2, 2}, {2, 2}, {0, 0}, 1e-3, 'speed', 256, 16, 'cudnn'}, -- 131 seconds
+-- {'2', '2', '2', 'random', 384, 2, 3, {100, 100, 100}, {12, 21}, {1e-4, 1e-4}, {3, 3}, 1, 1, {2, 2}, {2, 2}, {0, 0}, 1e-3, 'memory', 256, 16, 'cudnn'} -- 172 seconds
 
 -- speed mode V.S. memory mode (Geforce GT750M 2G)
--- {'2', '2', 'random', 384, 2, 3, {100, 100, 100}, {12, 21}, {1e-4, 1e-4}, {3, 3}, 1, 1, {2, 2}, {2, 2}, {0, 0}, 1e-3, 'speed', 256, 16, 'cudnn'}, -- 552 seconds (gpu streching, not recommended)
--- {'2', '2', 'random', 384, 2, 3, {100, 100, 100}, {12, 21}, {1e-4, 1e-4}, {3, 3}, 1, 1, {2, 2}, {2, 2}, {0, 0}, 1e-3, 'memory', 256, 16, 'cudnn'}, -- 1506 seconds
+-- {'2', '2', '2', 'random', 384, 2, 3, {100, 100, 100}, {12, 21}, {1e-4, 1e-4}, {3, 3}, 1, 1, {2, 2}, {2, 2}, {0, 0}, 1e-3, 'speed', 256, 16, 'cudnn'}, -- 552 seconds (gpu streching, not recommended)
+-- {'2', '2', '2', 'random', 384, 2, 3, {100, 100, 100}, {12, 21}, {1e-4, 1e-4}, {3, 3}, 1, 1, {2, 2}, {2, 2}, {0, 0}, 1e-3, 'memory', 256, 16, 'cudnn'}, -- 1506 seconds
 
 -- speed mode V.S. memory mode (Sapphire Radeon R9 280 3G)
--- {'2', '2', 'random', 384, 2, 3, {100, 100, 100}, {12, 21}, {1e-4, 1e-4}, {3, 3}, 1, 1, {2, 2}, {2, 2}, {0, 0}, 1e-3, 'speed', 256, 16, 'clnn'}, -- 193 seconds (240 seconds total)
--- {'2', '2', 'random', 384, 2, 3, {100, 100, 100}, {12, 21}, {1e-4, 1e-4}, {3, 3}, 1, 1, {2, 2}, {2, 2}, {0, 0}, 1e-3, 'memory', 256, 16, 'clnn'}, -- 175 seconds (216 seconds total)
+-- {'2', '2', '2', 'random', 384, 2, 3, {100, 100, 100}, {12, 21}, {1e-4, 1e-4}, {3, 3}, 1, 1, {2, 2}, {2, 2}, {0, 0}, 1e-3, 'speed', 256, 16, 'clnn'}, -- 193 seconds (240 seconds total)
+-- {'2', '2', '2', 'random', 384, 2, 3, {100, 100, 100}, {12, 21}, {1e-4, 1e-4}, {3, 3}, 1, 1, {2, 2}, {2, 2}, {0, 0}, 1e-3, 'memory', 256, 16, 'clnn'}, -- 175 seconds (216 seconds total)
 local list_params = { 
                         {'2', '2', 'random', 384, 2, 3, {100, 100, 100}, {12, 21}, {1e-4, 1e-4}, {3, 3}, 1, 1, {2, 2}, {2, 2}, {0, 0}, 1e-3, 'memory', 256, 16, 'cudnn'},
                     }    
