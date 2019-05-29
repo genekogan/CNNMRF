@@ -32,16 +32,22 @@ local function main(params)
   -----------------------------------------------------------------------------------
   -- read images
   -----------------------------------------------------------------------------------
-  local source_image = image.load(string.format('data/content/%s.jpg', params.content_name), 3)
-  local target_image = image.load(string.format('data/style/%s.jpg', params.style_name), 3)
+  --local source_image = image.load(string.format('data/content/%s.jpg', params.content_name), 3)
+  --local target_image = image.load(string.format('data/style/%s.jpg', params.style_name), 3)
+  --local ini_image = image.load(string.format('data/content/%s.jpg', params.ini_name), 3)
+  local source_image = image.load(params.content_name, 3)
+  local target_image = image.load(params.style_name, 3)
+  local ini_image = image.load(params.ini_name, 3)
 
   source_image = image.scale(source_image, params.max_size, 'bilinear')
   target_image = image.scale(target_image, math.floor(params.max_size / params.scaler), 'bilinear')
+  ini_image = image.scale(ini_image, params.max_size, 'bilinear')
 
   local render_height = source_image:size()[2]
   local render_width = source_image:size()[3]
   local source_image_caffe = preprocess(source_image):float()
   local target_image_caffe = preprocess(target_image):float()
+  local ini_image_caffe = preprocess(ini_image):float()
 
   local pyramid_source_image_caffe = {}
   for i_res = 1, params.num_res do
@@ -51,6 +57,11 @@ local function main(params)
   local pyramid_target_image_caffe = {}
   for i_res = 1, params.num_res do
     pyramid_target_image_caffe[i_res] = image.scale(target_image_caffe, math.ceil(target_image:size()[3] * math.pow(0.5, params.num_res - i_res)), math.ceil(target_image:size()[2] * math.pow(0.5, params.num_res - i_res)), 'bilinear')
+  end
+
+  local pyramid_ini_image_caffe = {}
+  for i_res = 1, params.num_res do
+    pyramid_ini_image_caffe[i_res] = image.scale(ini_image_caffe, math.ceil(ini_image:size()[3] * math.pow(0.5, params.num_res - i_res)), math.ceil(ini_image:size()[2] * math.pow(0.5, params.num_res - i_res)), 'bilinear')
   end
 
   -- --------------------------------------------------------------------------------------------------------
@@ -326,7 +337,7 @@ local function main(params)
       if params.ini_method == 'random' then
         input_image = torch.randn(pyramid_source_image_caffe[i_res]:size()):float():mul(0.001)
       elseif params.ini_method == 'image' then
-        input_image = pyramid_source_image_caffe[i_res]:clone():float()
+        input_image = pyramid_ini_image_caffe[i_res]:clone():float()
       else
         error('Invalid init type')
       end

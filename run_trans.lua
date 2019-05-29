@@ -4,9 +4,9 @@ paths.dofile('mylib/helper.lua')
 -----------------------------------------
 -- Parameters:
 -----------------------------------------
--- content_name: the content image located in folder "data/content"
--- style_name: the style image located in folder "data/style" 
--- ini_name: the initial image to start with (if ini_method set to image)
+-- content_name: the content image path
+-- style_name: the style image path
+-- ini_name: the initial image path to start with (if ini_method set to image)
 -- ini_method: initial method, set to "image" to use the content image as the initialization; set to "random" to use random noise. 
 -- max_size: maximum size of the synthesis image. Default value 384. Larger image needs more time and memory.
 -- num_res: number of resolutions. Default value 3. Notice the lowest resolution image should be larger than the patch size otherwise it won't synthesize.
